@@ -10,21 +10,21 @@ class KnightTravail
   end
 
   def knight_moves(start, target)
-    queue = []
+    queue = Queue.new
     visited = {}
     queue << [start, [start]]
 
     until queue.empty?
-      current_pos, path = queue.shift
+      current_pos, path = queue.pop
+
       if current_pos == target
         print_path(path)
         return path
       end
 
-      new_moves = MOVES.map { |dx, dy| [current_pos[0] + dx, current_pos[1] + dy] }
+      next_move = MOVES.map { |dx, dy| [current_pos[0] + dx, current_pos[1] + dy] }
                        .select { |x, y| valid_pos?(x, y) && !visited[[x, y]] }
-
-      new_moves.each do |move|
+      next_move.each do |move|
         visited[move] = true
         queue << [move, path + [move]]
       end
